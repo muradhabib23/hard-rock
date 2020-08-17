@@ -5,16 +5,16 @@ searchButton.addEventListener('click',function(){
 
     fetch(`https://api.lyrics.ovh/suggest/${inputSong}/`)
     .then(response => response.json())
-    .then(data => getSongsList(data));
+    .then(data => getSongsList(data))
 })
 
-function getSongsList(search){
+function getSongsList(data){
     let songResults = document.getElementById('songResults');
     for(let i = 0; i<10 ;i++){
-        let title = search.data[i].title;
-        let albumTitle = search.data[i].album.title;
-        let artist = search.data[i].artist.name;
-        let image = search.data[i].artist.picture_small;
+        let title = data.data[i].title;
+        let albumTitle = data.data[i].album.title;
+        let artist = data.data[i].artist.name;
+        let image = data.data[i].artist.picture_small;
         
         let result = `<div class="single-result row align-items-center my-3 p-3">
             <div class="col-md-7">
@@ -26,7 +26,7 @@ function getSongsList(search){
                 <img src="${image}" alt="">
             </div>
             <div class="col-md-3 text-md-right text-center">
-                <button  onclick="getArtistTitle('${artist}','${title}')" class="btn btn-success">Get Lyrics</button>
+            <a href="#lyrics" onclick="getArtistTitle('${artist}','${title}')" class="btn btn-success">Get Lyrics</a>
             </div>
         </div>`;
         songResults.innerHTML += result;
@@ -42,7 +42,7 @@ function getArtistTitle(artist,title){
 
 function showLyrics(song,title){
     if(song.lyrics == undefined){
-        document.getElementById('songLyrics').innerText = "there have no lyrics";
+        document.getElementById('songLyrics').innerText = "No lyrics found";
     }else{
         document.getElementById('songLyrics').innerText = song.lyrics;
     }
