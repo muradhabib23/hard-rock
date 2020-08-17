@@ -5,22 +5,24 @@ searchButton.addEventListener('click',function(){
 
     fetch(`https://api.lyrics.ovh/suggest/${inputSong}/`)
     .then(response => response.json())
-    .then(data => getSerchResult(data));
+    .then(data => getSongsList(data));
 })
 
-function getSerchResult(search){
+function getSongsList(search){
     let songResults = document.getElementById('songResults');
     for(let i = 0; i<10 ;i++){
         let title = search.data[i].title;
+        let albumTitle = search.data[i].album.title;
         let artist = search.data[i].artist.name;
         let image = search.data[i].artist.picture_small;
         
         let result = `<div class="single-result row align-items-center my-3 p-3">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <h3 class="lyrics-name" id="title">${title}</h3>
                 <p class="author lead">Album by <span id="artistName">${artist}</span></p>
-            </div>
-            <div class="col-md-1">
+                <p class="author lead">Album Title :  <span id="artistName">${albumTitle}</span></p>
+                </div>
+            <div class="col-md-2">
                 <img src="${image}" alt="">
             </div>
             <div class="col-md-3 text-md-right text-center">
